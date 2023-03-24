@@ -292,6 +292,9 @@
     width: 100%;
 }
 
+canvas.quiz_confetti{
+    margin: 0 auto;
+}
 
 /* answers */
 .answers_root{

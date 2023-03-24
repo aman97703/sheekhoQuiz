@@ -66,9 +66,9 @@ const Quiz = () => {
   useEffect(() => {
     if (isSubmited) {
       toggleDrawer(true);
-      setTimeout(() => {
-        navigate("/result");
-      }, 10000);
+      // setTimeout(() => {
+      //   navigate("/result");
+      // }, 10000);
     }
   }, [isSubmited, navigate]);
 
@@ -160,7 +160,7 @@ const Quiz = () => {
             </button>
           </div>
           <Confetti
-            width={"100%"}
+            width={300}
             height={600}
             tweenDuration={4000}
             numberOfPieces={1000}
