@@ -1,0 +1,60 @@
+{
+    "questions": [
+      {
+        "id": 1,
+        "question": "Which of the following is used in React.js to increase performance?",
+        "options": [
+          "Virtual Dom",
+          "Original Dom",
+          "Both A and B",
+          "None of the above"
+        ],
+        "correctAnswer": "Virtual Dom"
+      },
+      {
+        "id": 2,
+        "question": "What is ReactJS?",
+        "options": [
+          "Server-side framework",
+          "user interface framework",
+          "both a and b",
+          "None of the above"
+        ],
+        "correctAnswer": "user interface framework"
+      },
+      {
+        "id": 3,
+        "question": "Identify the one which is used to pass data to components from outside",
+        "options": [
+          "Render with arguments",
+          "setState",
+          "Proptypes",
+          "Props"
+        ],
+        "correctAnswer": "Props"
+      },
+      {
+        "id": 4,
+        "question": "In which language is React.js written?",
+        "options": [
+          "Python",
+          "JavaScript",
+          "Java",
+          "PHP"
+        ],
+        "correctAnswer": "JavaScript"
+      },
+      {
+        "id": 5,
+        "question": "What is Babel?",
+        "options": [
+          "JS compiler",
+          "JS Interpreter",
+          "JS Transpiler",
+          "None of the above"
+        ],
+        "correctAnswer": "JS compiler"
+      }
+    ]
+  }
+  
