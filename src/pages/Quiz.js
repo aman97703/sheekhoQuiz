@@ -24,7 +24,7 @@ const Quiz = () => {
   const [isSubmited, setIsSubmited] = useState(false);
   const [state, setState] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(60 * 1);
-  const navogate = useNavigate();
+  const navigate = useNavigate();
 
   const toggleDrawer = (open) => {
     setState(open);
@@ -68,10 +68,10 @@ const Quiz = () => {
     if (isSubmited) {
       toggleDrawer(true);
       setTimeout(()=>{
-        navogate('/result')
+        navigate('/result')
       }, 10000)
     }
-  }, [isSubmited]);
+  }, [isSubmited, navigate]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -85,7 +85,7 @@ const Quiz = () => {
     if (timeRemaining === 0) {
       handleSubmit();
     }
-  }, [timeRemaining]);
+  }, [timeRemaining, handleSubmit]);
   
 
   const minutesRemaining = Math.floor(timeRemaining / 60);
@@ -149,7 +149,7 @@ const Quiz = () => {
             </div>
           </div>
           <div className="quiz_drawer_footer">
-            <button className="btn_primary" onClick={() => navogate(`/result`)}>
+            <button className="btn_primary" onClick={() => navigate(`/result`)}>
               Check Results
             </button>
           </div>
