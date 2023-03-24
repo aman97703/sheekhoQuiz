@@ -16,7 +16,6 @@ import Confetti from "react-confetti";
 const Quiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
-  // const [score, setScore] = useState(0);
   const score = useSelector(selectScore);
   const quizStart = useSelector(quizStartTime);
   const dispatch = useDispatch();
@@ -29,6 +28,7 @@ const Quiz = () => {
   const toggleDrawer = (open) => {
     setState(open);
   };
+
   const handleNextQuestion = () => {
     if (
       selectedAnswer === QuizQuestion.questions[currentQuestion].correctAnswer
@@ -45,11 +45,10 @@ const Quiz = () => {
     setSelectedAnswer(answer);
   };
 
-  const handleSubmit = () => {
+  function handleSubmit (){
     if (
       selectedAnswer === QuizQuestion.questions[currentQuestion].correctAnswer
     ) {
-      // setScore(score + 1);
       dispatch(increment());
     }
     const now = Date.now();
@@ -67,9 +66,9 @@ const Quiz = () => {
   useEffect(() => {
     if (isSubmited) {
       toggleDrawer(true);
-      setTimeout(()=>{
-        navigate('/result')
-      }, 10000)
+      setTimeout(() => {
+        navigate("/result");
+      }, 10000);
     }
   }, [isSubmited, navigate]);
 
@@ -83,10 +82,17 @@ const Quiz = () => {
 
   useEffect(() => {
     if (timeRemaining === 0) {
-      handleSubmit();
+      if (
+        selectedAnswer === QuizQuestion.questions[currentQuestion].correctAnswer
+      ) {
+        dispatch(increment());
+      }
+      const now = Date.now();
+      const timeElapsed = now - quizStart;
+      dispatch(setTimeTake(timeElapsed));
+      setIsSubmited(true);
     }
-  }, [timeRemaining, handleSubmit]);
-  
+  }, [timeRemaining, currentQuestion, dispatch, quizStart, selectedAnswer]);
 
   const minutesRemaining = Math.floor(timeRemaining / 60);
   const secondsRemaining = timeRemaining % 60;
