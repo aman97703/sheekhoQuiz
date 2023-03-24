@@ -5,7 +5,13 @@ import QuizQuestion from "../Utils/Questions.json";
 import Done from "../Assets/Images/done.gif";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { increment, quizStartTime, selectScore, setTimeTake } from "../features/scoreSlice";
+import {
+  increment,
+  quizStartTime,
+  selectScore,
+  setTimeTake,
+} from "../features/scoreSlice";
+import Confetti from "react-confetti";
 
 const Quiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -48,7 +54,7 @@ const Quiz = () => {
     }
     const now = Date.now();
     const timeElapsed = now - quizStart;
-    dispatch(setTimeTake(timeElapsed))
+    dispatch(setTimeTake(timeElapsed));
     setIsSubmited(true);
   };
 
@@ -61,6 +67,9 @@ const Quiz = () => {
   useEffect(() => {
     if (isSubmited) {
       toggleDrawer(true);
+      setTimeout(()=>{
+        navogate('/result')
+      }, 10000)
     }
   }, [isSubmited]);
 
@@ -77,6 +86,7 @@ const Quiz = () => {
       handleSubmit();
     }
   }, [timeRemaining]);
+  
 
   const minutesRemaining = Math.floor(timeRemaining / 60);
   const secondsRemaining = timeRemaining % 60;
@@ -143,6 +153,14 @@ const Quiz = () => {
               Check Results
             </button>
           </div>
+          <Confetti
+            width={"100%"}
+            height={600}
+            tweenDuration={4000}
+            numberOfPieces={1000}
+            className="quiz_confetti"
+            recycle={false}
+          />
         </div>
       </Drawer>
     </div>
