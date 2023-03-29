@@ -1,21 +1,35 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import QuizCard from "../Components/QuizCard";
-import { resetScore } from "../features/scoreSlice";
-import QuizQues from "../Utils/Questions.json";
+import { getQuestions, resetScore } from "../features/scoreSlice";
 
 const Answers = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const questions = useSelector(getQuestions);
+
   return (
     <div className="answers_root">
       <p className="title mb-24">Answers</p>
-      {QuizQues.questions.map((ques, i) => (
+      <div className="d-flex align-items-center">
+        <div
+          className={"selectedAnswerOption quizAnswer_optionNoSelected"}
+        ></div>
+         <p className="body2 ml-24">- Correct Answer</p>
+      </div>
+      <div className="d-flex align-items-center">
+        <div
+          className={"selectedAnswerOption quizAnswer_optionNoWrongSelected"}
+        ></div>
+         <p className="body2 ml-24">- Wrong Answer</p>
+      </div>
+      {questions.map((ques, i) => (
         <QuizCard
           currentQuestion={i}
-          selectedAnswer={ques.correctAnswer}
+          selectedAnswer={ques.selectedAnser}
           isShowAnswer={true}
+          correctAnswer={ques.correctAnswer}
         />
       ))}
       <div className="d-flex align-items-center justify-content-center mt-24">

@@ -134,6 +134,12 @@
     border-color: #74c899;
 }
 
+.quizAnswer_optionNoWrongSelected {
+    color: white;
+    background-color: red;
+    border-color: red;
+}
+
 .quiz_drawer_main {
     height: 100vh;
     width: 100vw;
@@ -294,6 +300,13 @@
 
 canvas.quiz_confetti{
     margin: 0 auto;
+}
+
+.selectedAnswerOption{
+    height: 16px;
+    width: 16px;
+    border: 1px solid #000;
+    border-radius: 50%;
 }
 
 /* answers */

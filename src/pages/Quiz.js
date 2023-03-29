@@ -1,14 +1,16 @@
 import { Drawer } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import QuizCard from "../Components/QuizCard";
-import QuizQuestion from "../Utils/Questions.json";
+// import QuizQuestion from "../Utils/Questions.json";
 import Done from "../Assets/Images/done.gif";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  checkScore,
+  getQuestions,
   increment,
   quizStartTime,
-  selectScore,
+  setAnswer,
   setTimeTake,
 } from "../features/scoreSlice";
 import Confetti from "react-confetti";
@@ -16,8 +18,9 @@ import Confetti from "react-confetti";
 const Quiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState("");
-  const score = useSelector(selectScore);
+  const score = useSelector(checkScore);
   const quizStart = useSelector(quizStartTime);
+  const questions = useSelector(getQuestions)
   const dispatch = useDispatch();
   const [showScore, setShowScore] = useState(false);
   const [isSubmited, setIsSubmited] = useState(false);
@@ -31,14 +34,22 @@ const Quiz = () => {
 
   const handleNextQuestion = () => {
     if (
-      selectedAnswer === QuizQuestion.questions[currentQuestion].correctAnswer
+      selectedAnswer === questions[currentQuestion].correctAnswer
     ) {
-      // setScore(score + 1);
       dispatch(increment());
     }
-
+    const payload = {
+      id : questions[currentQuestion].id,
+      selectedAnswer: selectedAnswer
+    }
+    dispatch(setAnswer(payload));
     setSelectedAnswer("");
     setCurrentQuestion(currentQuestion + 1);
+  };
+
+  const handleBackQuestion = () => {
+    setSelectedAnswer(questions[currentQuestion-1].selectedAnser)
+    setCurrentQuestion(currentQuestion - 1);
   };
 
   const handleAnswerOptionClick = (answer) => {
@@ -47,10 +58,15 @@ const Quiz = () => {
 
   function handleSubmit (){
     if (
-      selectedAnswer === QuizQuestion.questions[currentQuestion].correctAnswer
+      selectedAnswer === questions[currentQuestion].correctAnswer
     ) {
       dispatch(increment());
     }
+    const payload = {
+      id : questions[currentQuestion].id,
+      selectedAnswer: selectedAnswer
+    }
+    dispatch(setAnswer(payload));
     const now = Date.now();
     const timeElapsed = now - quizStart;
     dispatch(setTimeTake(timeElapsed));
@@ -58,10 +74,10 @@ const Quiz = () => {
   };
 
   useEffect(() => {
-    if (currentQuestion === QuizQuestion.questions.length - 1) {
+    if (currentQuestion === questions.length - 1) {
       setShowScore(true);
     }
-  }, [currentQuestion]);
+  }, [currentQuestion, questions.length]);
 
   useEffect(() => {
     if (isSubmited) {
@@ -83,7 +99,7 @@ const Quiz = () => {
   useEffect(() => {
     if (timeRemaining === 0) {
       if (
-        selectedAnswer === QuizQuestion.questions[currentQuestion].correctAnswer
+        selectedAnswer === questions[currentQuestion].correctAnswer
       ) {
         dispatch(increment());
       }
@@ -92,7 +108,7 @@ const Quiz = () => {
       dispatch(setTimeTake(timeElapsed));
       setIsSubmited(true);
     }
-  }, [timeRemaining, currentQuestion, dispatch, quizStart, selectedAnswer]);
+  }, [timeRemaining, currentQuestion, dispatch, quizStart, selectedAnswer, questions]);
 
   const minutesRemaining = Math.floor(timeRemaining / 60);
   const secondsRemaining = timeRemaining % 60;
@@ -110,9 +126,9 @@ const Quiz = () => {
                 ? currentQuestion + 1
                 : `0${currentQuestion + 1}`}
               /
-              {QuizQuestion.questions.length > 9
-                ? QuizQuestion.questions.length
-                : `0${QuizQuestion.questions.length}`}
+              {questions.length > 9
+                ? questions.length
+                : `0${questions.length}`}
             </p>
           </div>
           <div className="quiz_card_qtime">
@@ -123,6 +139,7 @@ const Quiz = () => {
           currentQuestion={currentQuestion}
           selectedAnswer={selectedAnswer}
           handleNextQuestion={handleNextQuestion}
+          handleBackQuestion={handleBackQuestion}
           handleAnswerOptionClick={handleAnswerOptionClick}
           showScore={showScore}
           handleSubmit={handleSubmit}
@@ -141,7 +158,7 @@ const Quiz = () => {
               <img src={Done} alt="done" />
               <div className="quiz_total_points">
                 <span className="quiz_total_pointStar">★</span>
-                {(score / QuizQuestion.questions.length) * 100}
+                {(score / questions.length) * 100}
               </div>
               <p className="title mt-16">Karma Points Earned</p>
             </div>

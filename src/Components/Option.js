@@ -8,6 +8,8 @@ const Option = ({
   handleAnswerOptionClick,
   i,
   isShowAnswer,
+  choosedAnswer,
+  correctAnswer
 }) => {
   const controlProps = () => ({
     id: option,
@@ -43,9 +45,9 @@ const Option = ({
             color: pink[600],
           },
         }}
-        name="answer"
+        name={!isShowAnswer && "answer"}
         id={option}
-        checked={selectedAnswer === option}
+        checked={option === (selectedAnswer || choosedAnswer || correctAnswer)}
         onChange={() => {
           !isShowAnswer && handleAnswerOptionClick(option);
         }}

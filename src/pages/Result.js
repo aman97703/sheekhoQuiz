@@ -5,14 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import graph from "../Assets/Images/graph.png";
 import seekho from "../Assets/Images/seekho.png";
-import { quizTimeTaken, resetScore, selectScore } from "../features/scoreSlice";
-import QuizQuestion from "../Utils/Questions.json";
+import { checkScore, getQuestions, quizTimeTaken, resetScore } from "../features/scoreSlice";
 
 const Result = () => {
-  const score = useSelector(selectScore);
+  const score = useSelector(checkScore);
   const timetaken = useSelector(quizTimeTaken);
+  const questions = useSelector(getQuestions);
+
   const Avgtimetaken =
-    useSelector(quizTimeTaken) / QuizQuestion.questions.length;
+    useSelector(quizTimeTaken) / questions.length;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -54,11 +55,11 @@ const Result = () => {
               <div className="result_img mt-12">
                 <img src={graph} alt="graph" />
                 <p className="title ml-8 color_seekho">
-                  {(score / QuizQuestion.questions.length) * 100}%
+                  {(score / questions.length) * 100}%
                 </p>
               </div>
             </div>
-            {(score / QuizQuestion.questions.length) * 100 !== 100 ? (
+            {(score / questions.length) * 100 !== 100 ? (
               <p className="body2 mt-8">Oh Snap, You can do better!</p>
             ) : (
               <p className="body2 mt-8">Great, You are best!</p>
@@ -73,10 +74,10 @@ const Result = () => {
             <div className="">
               <p className="body2">Your Score</p>
               <p className="title color_seekho">
-                {score} / {QuizQuestion.questions.length}
+                {score} / {questions.length}
               </p>
               <p className="caption">
-                Avg: {score / QuizQuestion.questions.length} marks
+                Avg: {score / questions.length} marks
               </p>
             </div>
             <div className="">
@@ -128,7 +129,7 @@ const Result = () => {
                 ★
               </span>
               100
-              {/* {(score / QuizQuestion.questions.length) * 100} */}
+              {/* {(score / questions.length) * 100} */}
             </div>
           </div>
           <div className="d-flex justify-content-center align-items-center mt-40">
